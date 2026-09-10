@@ -1,8 +1,7 @@
 # TungMD 
 Design evidence, made legible.
-(named after the phenomenal `tung tung tung sahur`)
 
-TungMD is a local-first web app that takes a public URL and turns it into a clean, engineering-friendly design specification. It extracts a page's dominant colors, type scale, headings, key copy, and image references, then formats everything as a downloadable Markdown handoff.
+TungMD (named after the phenomenal `tung tung tung sahur`) is a local-first web app that takes a public URL and turns it into a clean, engineering-friendly design specification. It extracts a page's dominant colors, type scale, headings, key copy, and image references, then formats everything as a downloadable Markdown handoff.
 
 ## What this project does
 
