@@ -5,6 +5,7 @@ import { pressUrl } from "@/lib/press.functions";
 import { buildDesignMarkdown, fileNameFor } from "@/lib/design-md";
 import type { Extraction } from "@/lib/extraction-types";
 import { MarkdownSheet } from "@/components/MarkdownSheet";
+import { UiPreview } from "@/components/UiPreview";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -38,7 +39,7 @@ function Press() {
   const [status, setStatus] = useState<"idle" | "running" | "done" | "error">("idle");
   const [error, setError] = useState("");
   const [result, setResult] = useState<Extraction | null>(null);
-  const [tab, setTab] = useState<"preview" | "raw">("preview");
+  const [tab, setTab] = useState<"preview" | "raw" | "ui">("preview");
   const [history, setHistory] = useState<HistoryItem[]>([]);
 
   useEffect(() => {
@@ -311,6 +312,15 @@ function Press() {
                   >
                     Raw
                   </button>
+                  <button
+                    type="button"
+                    onClick={() => setTab("ui")}
+                    className={
+                      tab === "ui" ? "bg-ink px-2 py-1 text-paper" : "px-2 py-1 text-quiet"
+                    }
+                  >
+                    UI
+                  </button>
                 </div>
                 <button
                   type="button"
@@ -322,51 +332,61 @@ function Press() {
                 </button>
               </div>
 
-              <div className="grid grid-cols-12 gap-4">
-                <div className="col-span-12 border border-line bg-sheet p-6 font-grotesk lg:col-span-7">
-                  <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-quiet">
-                    Rendered markdown
+              {tab === "ui" ? (
+                result ? (
+                  <UiPreview colors={result.colors} />
+                ) : (
+                  <p className="border border-line bg-sheet p-6 text-[11px] text-quiet">
+                    Awaiting a page.
                   </p>
-                  {result ? (
-                    tab === "preview" ? (
-                      <MarkdownSheet markdown={markdown} />
+                )
+              ) : (
+                <div className="grid grid-cols-12 gap-4">
+                  <div className="col-span-12 border border-line bg-sheet p-6 font-grotesk lg:col-span-7">
+                    <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-quiet">
+                      Rendered markdown
+                    </p>
+                    {result ? (
+                      tab === "preview" ? (
+                        <MarkdownSheet markdown={markdown} />
+                      ) : (
+                        <pre className="whitespace-pre-wrap font-mono text-[12px] leading-relaxed text-ink/80">
+                          {markdown}
+                        </pre>
+                      )
                     ) : (
-                      <pre className="whitespace-pre-wrap font-mono text-[12px] leading-relaxed text-ink/80">
-                        {markdown}
-                      </pre>
-                    )
-                  ) : (
-                    <>
-                      <h3 className="text-2xl font-bold tracking-tight">
-                        The quiet voice of a page
-                      </h3>
-                      <p className="mt-3 text-[14px] leading-relaxed text-ink/85">
-                        Every page carries a voice. Some shout in gradients; some whisper in a
-                        single weight. We press the whisper into something you can hold — a scale, a
-                        palette, a sheet.
-                      </p>
-                      <blockquote className="my-4 border-l-2 border-signal pl-4 text-[15px] italic text-ink/75">
-                        Precision is a form of respect for the reader's eye.
-                      </blockquote>
-                      <p className="text-[14px] leading-relaxed text-ink/85">
-                        The result is not decoration. It is a spec you can ship against, line by
-                        line.
-                      </p>
-                    </>
-                  )}
-                </div>
+                      <>
+                        <h3 className="text-2xl font-bold tracking-tight">
+                          The quiet voice of a page
+                        </h3>
+                        <p className="mt-3 text-[14px] leading-relaxed text-ink/85">
+                          Every page carries a voice. Some shout in gradients; some whisper in a
+                          single weight. We press the whisper into something you can hold — a scale,
+                          a palette, a sheet.
+                        </p>
+                        <blockquote className="my-4 border-l-2 border-signal pl-4 text-[15px] italic text-ink/75">
+                          Precision is a form of respect for the reader's eye.
+                        </blockquote>
+                        <p className="text-[14px] leading-relaxed text-ink/85">
+                          The result is not decoration. It is a spec you can ship against, line by
+                          line.
+                        </p>
+                      </>
+                    )}
+                  </div>
 
-                <div className="col-span-12 overflow-hidden border border-ink bg-plate p-6 text-[12px] leading-relaxed text-plate-foreground lg:col-span-5">
-                  <p className="mb-3 text-[10px] uppercase tracking-[0.2em] text-quiet">
-                    Raw source
-                  </p>
-                  <pre className="max-h-[420px] overflow-auto whitespace-pre-wrap">
-                    {result
-                      ? markdown
-                      : `# The quiet voice\n## of a page\n\nEvery page carries a **voice**.\n\n> Precision is a form\n> of respect…\n\n- a scale\n- a palette\n- a sheet`}
-                  </pre>
+                  <div className="col-span-12 overflow-hidden border border-ink bg-plate p-6 text-[12px] leading-relaxed text-plate-foreground lg:col-span-5">
+                    <p className="mb-3 text-[10px] uppercase tracking-[0.2em] text-quiet">
+                      Raw source
+                    </p>
+                    <pre className="max-h-[420px] overflow-auto whitespace-pre-wrap">
+                      {result
+                        ? markdown
+                        : `# The quiet voice\n## of a page\n\nEvery page carries a **voice**.\n\n> Precision is a form\n> of respect…\n\n- a scale\n- a palette\n- a sheet`}
+                    </pre>
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div className="mt-5">
                 <p className="mb-3 text-[10px] uppercase tracking-[0.2em] text-quiet">
