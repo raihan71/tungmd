@@ -15,6 +15,7 @@
     "rolldown": "1.2.1"
   },
   "dependencies": {
+    "@clerk/react": "^6.17.2",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",
