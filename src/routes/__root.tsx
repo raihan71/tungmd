@@ -8,7 +8,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
-
+import { ClerkProvider } from "@clerk/react";
 import appCss from "../styles.css?url";
 import { reportError } from "../lib/error-reporting";
 
@@ -138,8 +138,9 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <ClerkProvider>
+        <Outlet />
+      </ClerkProvider>
     </QueryClientProvider>
   );
 }

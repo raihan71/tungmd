@@ -1,4 +1,4 @@
-@import "tailwindcss" source(none);
+@import "tailwindcss";
 @source "../src";
 @import "tw-animate-css";
 
@@ -132,6 +132,11 @@
     color: var(--color-ink);
     font-family: var(--font-mono);
     -webkit-font-smoothing: antialiased;
+  }
+
+  a,
+  button {
+    cursor: pointer;
   }
 
   ::selection {
