@@ -1,4 +1,5 @@
-# TungMD 
+# TungMD
+
 Design evidence, made legible.
 
 TungMD (named after the phenomenal `tung tung tung sahur`) is a local-first web app that takes a public URL and turns it into a clean, engineering-friendly design specification. It extracts a page's dominant colors, type scale, headings, key copy, and image references, then formats everything as a downloadable Markdown handoff.
@@ -58,6 +59,39 @@ Before running the app, make sure you have:
    ```
 
 3. Open the local app in the browser using the URL shown by Vite.
+
+## Account history setup
+
+Sign-in and registration use Clerk. Signed-in users sync page history to Supabase;
+guests keep history in their browser. Configure this before enabling account sync:
+
+1. Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` to `.env`
+   (see `.env.example`). Use the public publishable key, never a service-role key.
+2. Enable Supabase in Clerk's dashboard, then add your Clerk instance under
+   Supabase **Authentication → Third-Party Auth**. Clerk session tokens must include
+   `role: "authenticated"`. See the [official integration guide](https://supabase.com/docs/guides/auth/third-party/clerk).
+3. Run `supabase/migrations/202610030001_page_history.sql` in the Supabase SQL editor
+   or apply it with your Supabase migration workflow. It creates the history table,
+   per-user row-level security policies, and the atomic merge function.
+4. Restart the dev server (or rebuild the deployed app) after configuring environment variables.
+
+On login or registration, existing guest history moves into an account-specific
+browser cache and uploads to Supabase. The cache is retained for failed/offline
+syncs and is never shown to another account. History retries on window focus,
+reconnection, new extractions, or the Retry button. New devices load the same
+account's history after sign-in. Visits merge by URL, with the newest timestamp
+winning; older local caches cannot overwrite newer cloud visits.
+
+The old browser format retained only six links, so only those surviving entries
+can be imported. History now has no six-entry cap. It stores URLs, titles, visit
+times, and asset counts; selecting a page extracts it again, rather than restoring
+a saved extraction snapshot. Legacy clock-only entries retain their original order
+and sort below visits with known dates.
+
+Validate history behavior with `node --test tests/history-service.test.mjs`
+(Node.js 22.18+). For live verification, sign in with existing guest history, open
+the same account in a second browser, and verify the pages appear. Check that a
+different account has separate history, and that offline visits sync on reconnect.
 
 ## Available scripts
 

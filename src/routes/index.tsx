@@ -1,17 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { useAuth } from "@clerk/react";
+import { useHistory } from "@/hooks/use-history";
 import { pressUrl } from "@/lib/press.functions";
 import { buildDesignMarkdown } from "@/lib/design-md";
 import type { Extraction } from "@/lib/extraction-types";
 import { PressPage, type PressTab } from "@/components/elements/PressPage";
-import {
-  addHistoryItem,
-  downloadDesignMarkdown,
-  loadHistory,
-  type HistoryItem,
-} from "@/services/press-service";
+import { downloadDesignMarkdown } from "@/services/press-service";
 import { Topnav, Footer } from "@/components/elements";
+import SyncNotice from "@/components/elements/SyncNotice";
+import PressPageSkeleton from "@/components/elements/PressPageSkeleton";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -36,17 +35,28 @@ export const Route = createFileRoute("/")({
 });
 
 function Press() {
+  const { isLoaded, userId } = useAuth();
+  return (
+    <div className="min-h-screen bg-paper text-ink font-sans text-sm antialiased">
+      <Topnav />
+      {isLoaded ? (
+        <PressWorkspace key={userId ?? "guest"} userId={userId ?? null} />
+      ) : (
+        <PressPageSkeleton />
+      )}
+      <Footer />
+    </div>
+  );
+}
+
+function PressWorkspace({ userId }: { userId: string | null }) {
   const press = useServerFn(pressUrl);
   const [url, setUrl] = useState("");
   const [status, setStatus] = useState<"idle" | "running" | "done" | "error">("idle");
   const [error, setError] = useState("");
   const [result, setResult] = useState<Extraction | null>(null);
   const [tab, setTab] = useState<PressTab>("preview");
-  const [history, setHistory] = useState<HistoryItem[]>([]);
-
-  useEffect(() => {
-    setHistory(loadHistory());
-  }, []);
+  const { history, addHistory, syncError, syncing, retrySync } = useHistory(userId);
 
   const markdown = useMemo(() => (result ? buildDesignMarkdown(result) : ""), [result]);
 
@@ -60,7 +70,7 @@ function Press() {
       setResult(data);
       setStatus("done");
       setTab("preview");
-      setHistory((previous) => addHistoryItem(previous, data));
+      addHistory(data);
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "The press jammed. Try another address.");
@@ -73,10 +83,8 @@ function Press() {
   }
 
   return (
-    <div className="min-h-screen bg-paper text-ink font-mono text-sm antialiased">
-      <Topnav
-        onSignIn={() => setError("Accounts aren't open yet — everything runs locally for now.")}
-      />
+    <>
+      <SyncNotice syncError={syncError} syncing={syncing} retrySync={retrySync} />
       <PressPage
         url={url}
         setUrl={setUrl}
@@ -90,7 +98,6 @@ function Press() {
         onPress={(target) => void run(target)}
         onDownload={download}
       />
-      <Footer />
-    </div>
+    </>
   );
 }
