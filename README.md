@@ -1,5 +1,8 @@
 # TungMD
 
+<img width="300" alt="TungMD Wooden Mascot Logo" src="https://github.com/user-attachments/assets/fcd2251c-9c57-44c0-a7ca-937ae31ed930" />
+
+
 Design evidence, made legible.
 
 TungMD (named after the phenomenal `tung tung tung sahur`) is a local-first web app that takes a public URL and turns it into a clean, engineering-friendly design specification. It extracts a page's dominant colors, type scale, headings, key copy, and image references, then formats everything as a downloadable Markdown handoff.
