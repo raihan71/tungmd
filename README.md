@@ -1,7 +1,8 @@
 # TungMD
 
-<img width="300" alt="TungMD Wooden Mascot Logo" src="https://github.com/user-attachments/assets/fcd2251c-9c57-44c0-a7ca-937ae31ed930" />
-
+<p align="center">
+<img width="300"  alt="TungMD Wooden Mascot Logo" src="https://github.com/user-attachments/assets/fcd2251c-9c57-44c0-a7ca-937ae31ed930" />
+</p>
 
 Design evidence, made legible.
 
