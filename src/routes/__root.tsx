@@ -86,15 +86,26 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "TungMD turns any public web page into a clean design.md specification: palette, type scale, imagery.",
       },
       { name: "author", content: "TungMD" },
+      { name: "keywords", content: "design, tokens, typography, color, imagery" },
+      { name: "theme-color", content: "#ffffff" },
+      { name: "twitter:title", content: "TungMD — the extraction press" },
+      {
+        name: "twitter:description",
+        content:
+          "TungMD turns any public web page into a clean design.md specification: palette, type scale, imagery.",
+      },
+      { name: "twitter:image", content: "https://tungmd.click/assets/tungmd-mascot.png" },
       { property: "og:title", content: "TungMD — the extraction press" },
       {
         property: "og:description",
         content:
           "TungMD turns any public web page into a clean design.md specification: palette, type scale, imagery.",
       },
+      { property: "og:image", content: "https://tungmd.click/assets/tungmd-mascot.png" },
+      { property: "og:url", content: "https://tungmd.click" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:site", content: "@rayhan_nj" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
