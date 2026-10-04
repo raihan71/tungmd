@@ -113,7 +113,9 @@ export function PressPage({
                 : "Public web pages only · nothing is stored on a server"}
           </p>
           {error ? (
-            <p className="mt-2 border-l-2 border-signal pl-3 text-[12px] text-signal">{error}</p>
+            <p className="mt-2 border-l-2 border-destructive pl-3 text-[12px] text-destructive">
+              {error}
+            </p>
           ) : null}
         </form>
       </section>
