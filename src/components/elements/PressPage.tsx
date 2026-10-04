@@ -36,6 +36,19 @@ export function PressPage({
 }: PressPageProps) {
   const running = status === "running";
   const [visibleHistoryCount, setVisibleHistoryCount] = useState(10);
+  const [copyFeedback, setCopyFeedback] = useState({ markdown: "", message: "" });
+
+  async function copyMarkdown() {
+    try {
+      await navigator.clipboard.writeText(markdown);
+      setCopyFeedback({ markdown, message: "Copied!" });
+    } catch {
+      setCopyFeedback({
+        markdown,
+        message: "Could not copy. Please select and copy the text manually.",
+      });
+    }
+  }
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -261,7 +274,22 @@ export function PressPage({
             ) : (
               <div className="grid grid-cols-1 gap-4">
                 <div className="min-w-0 overflow-x-auto rounded-xl border border-line bg-sheet p-6 font-sans sm:p-8">
-                  <p className="mb-3 font-mono text-xs font-medium text-quiet">Rendered markdown</p>
+                  <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+                    <p className="font-mono text-xs font-medium text-quiet">
+                      {tab === "raw" ? "Raw markdown" : "Rendered markdown"}
+                    </p>
+                    {tab === "raw" && result ? (
+                      <button
+                        type="button"
+                        onClick={copyMarkdown}
+                        className="rounded-lg bg-signal/10 px-3 py-1.5 text-xs font-medium text-signal hover:bg-signal/15"
+                      >
+                        {copyFeedback.markdown === markdown
+                          ? copyFeedback.message
+                          : "Copy markdown"}
+                      </button>
+                    ) : null}
+                  </div>
                   {result ? (
                     tab === "preview" ? (
                       <MarkdownSheet markdown={markdown} />
