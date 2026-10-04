@@ -10,9 +10,7 @@ export default defineConfig({
     build: {
       chunkSizeWarningLimit: 10000,
       ssr: true,
-      target: "esnext",
       sourcemap: false,
-      minify: "esbuild",
     },
     resolve: {
       alias: {
