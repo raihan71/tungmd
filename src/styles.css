@@ -6,15 +6,15 @@
 
 /*
  * TungMD — "extraction press" design system.
- * Warm neutral paper, navy ink, one vivid blue. Sans-led, hairline borders, soft corners.
+ * White canvas, black ink, one blue accent. Studio typography and precise borders.
  */
 
 @theme inline {
   --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 12px;
-  --radius-2xl: 12px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 8px;
+  --radius-2xl: 8px;
 
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
   --font-grotesk: var(--font-sans);
@@ -53,16 +53,16 @@
 }
 
 :root {
-  --radius: 12px;
+  --radius: 8px;
 
-  --paper: #f6f5f4;
+  --paper: #ffffff;
   --sheet: #ffffff;
-  --ink: #17243b;
-  --quiet: #5e6e85;
-  --line: rgb(60 56 52 / 12%);
-  --signal: #2563eb;
-  --plate: #101c32;
-  --plate-foreground: #cbd5e1;
+  --ink: #080808;
+  --quiet: #5a5a5a;
+  --line: #d8d8d8;
+  --signal: #146ef5;
+  --plate: #171717;
+  --plate-foreground: #ffffff;
 
   --background: var(--paper);
   --foreground: var(--ink);
@@ -74,7 +74,7 @@
   --primary-foreground: var(--paper);
   --secondary: var(--sheet);
   --secondary-foreground: var(--ink);
-  --muted: var(--sheet);
+  --muted: #f0f0f0;
   --muted-foreground: var(--quiet);
   --accent: var(--signal);
   --accent-foreground: var(--paper);

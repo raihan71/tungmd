@@ -18,7 +18,7 @@ export function UiPreview({ colors }: { colors: ColorToken[] }) {
   return (
     <div
       style={style}
-      className="border border-border bg-background p-8 font-grotesk text-foreground"
+      className="rounded-lg border border-border bg-background p-8 font-grotesk text-foreground"
     >
       <div className="max-w-2xl">
         <h3 className="text-4xl font-bold leading-tight tracking-tight">

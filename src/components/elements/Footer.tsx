@@ -3,7 +3,7 @@ import { GitFork } from "lucide-react";
 export default function Footer() {
   return (
     <footer className="mt-4 border-t border-line">
-      <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-2 px-5 py-6 text-xs text-quiet sm:flex-row sm:items-center">
+      <div className="mx-auto flex max-w-[1200px] flex-col items-start justify-between gap-2 px-5 py-6 text-xs text-quiet sm:flex-row sm:items-center">
         <span>TungMD · extracted tokens, not opinions</span>
         <div className="flex items-center gap-1">
           <a
